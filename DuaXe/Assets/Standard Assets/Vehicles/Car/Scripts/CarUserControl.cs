@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
+
 namespace UnityStandardAssets.Vehicles.Car
 {
     [RequireComponent(typeof (CarController))]
@@ -28,6 +29,12 @@ namespace UnityStandardAssets.Vehicles.Car
 #else
             m_Car.Move(h, v, v, 0f);
 #endif
+        }
+
+        private void OnCollisionEnter(Collision collision){
+            if(collision.gameObject.tag == "hangrao"){
+                this.GetComponent<Restart>().ReStartGameOver();
+            }
         }
     }
 }
