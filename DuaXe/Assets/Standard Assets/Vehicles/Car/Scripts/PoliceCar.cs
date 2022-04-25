@@ -8,13 +8,15 @@ public class PoliceCar : MonoBehaviour
     [SerializeField] private Vector3 offset;
     [SerializeField] private Transform target;
     public float translateSpeed;
+    private float defauleSpeed;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private GameObject gameControl;
     private Vector3 vector3;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        defauleSpeed = translateSpeed;
     }
 
     // Update is called once per frame
@@ -25,7 +27,7 @@ public class PoliceCar : MonoBehaviour
             vector3 = transform.position;
             HandleTranslation();
             HandleRotation();
-        }        
+        }
     }
 
     private void HandleTranslation()
@@ -44,9 +46,9 @@ public class PoliceCar : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.gameObject.tag);
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Car")
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            this.gameControl.GetComponent<GameController>().ReStartGameOver();
         }
     }
 
@@ -56,6 +58,27 @@ public class PoliceCar : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(10); //3second pause
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+        CollisionCar(false);
+    }
+
+    public void CollisionCar(bool value)
+    {
+        if (value)
+        {
+            translateSpeed += 4;
+            Debug.Log(translateSpeed);
+            StartCoroutine(Wait());
+        }
+        else
+        {
+            translateSpeed = defauleSpeed;
         }
     }
 }

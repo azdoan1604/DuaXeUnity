@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class endgame : MonoBehaviour
 {
+    public GameObject gameControl;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +18,7 @@ public class endgame : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision){
         if(collision.gameObject.tag == "hangrao"){
-            this.GetComponent<Restart>().ReStartGameOver();
+            this.gameControl.GetComponent<GameController>().ReStartGameOver();
         }
     }
 }

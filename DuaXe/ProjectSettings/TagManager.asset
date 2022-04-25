@@ -9,6 +9,9 @@ TagManager:
   - Pickup
   - obstacle
   - hangrao
+  - PoliceCar
+  - addSpeed
+  - Car
   layers:
   - Default
   - TransparentFX

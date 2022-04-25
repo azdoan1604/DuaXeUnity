@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
@@ -10,6 +11,7 @@ namespace UnityStandardAssets.Vehicles.Car
     {
         private CarController m_Car; // the car controller we want to use
         public GameObject gameControl;
+        public GameObject PoliceCar;
 
         private void Awake()
         {
@@ -34,8 +36,28 @@ namespace UnityStandardAssets.Vehicles.Car
 
         private void OnCollisionEnter(Collision collision){
             if(collision.gameObject.tag == "hangrao"){
-                this.GetComponent<Restart>().ReStartGameOver();
+                this.gameControl.GetComponent<GameController>().ReStartGameOver();
             }
+            
+
+        }
+
+        private void OnTriggerEnter(Collider collision)
+        {
+            if (collision.gameObject.tag == "PoliceCar")
+            {
+                Debug.Log("lol");
+                PoliceCar.GetComponent<PoliceCar>().CollisionCar(true);
+                collision.gameObject.SetActive(false);
+                StartCoroutine(Wait(collision.gameObject));
+            }
+        }
+
+        IEnumerator Wait(GameObject PoliceCar)
+        {
+            yield return new WaitForSeconds(3); //3second pause
+                                                //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+            PoliceCar.SetActive(true);
         }
     }
 }
